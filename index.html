@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⭐ Gente Más Botada con Estrellita</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        .add-person-form {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .add-person-form h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .people-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .person-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .person-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .person-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .person-name {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: 700;
+        }
+
+        .person-reason {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .rating-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stars {
+            display: flex;
+            gap: 5px;
+        }
+
+        .star {
+            font-size: 2rem;
+            cursor: pointer;
+            color: #ddd;
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        .star:hover,
+        .star.active {
+            color: #ffd700;
+            transform: scale(1.2);
+        }
+
+        .rating-display {
+            font-size: 1.2rem;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .delete-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: #ff3344;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: white;
+            padding: 60px 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .empty-state h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            opacity: 0.9;
+        }
+
+        .stats {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            color: white;
+            text-align: center;
+        }
+
+        .stats h3 {
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .person-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .rating-section {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>😂 Gente Más Botada</h1>
+        <p class="subtitle">¡Califica con estrellitas qué tan botada está la gente!</p>
+
+        <div class="stats" id="stats">
+            <h3>📊 Estadísticas</h3>
+            <p id="statsText">Aún no hay personas registradas</p>
+        </div>
+
+        <div class="add-person-form">
+            <h2>➕ Agregar Nueva Persona</h2>
+            <form id="addPersonForm">
+                <div class="form-group">
+                    <label for="personName">Nombre:</label>
+                    <input type="text" id="personName" placeholder="Ej: Juan Pérez" required>
+                </div>
+                <div class="form-group">
+                    <label for="personReason">¿Por qué es botado/a?</label>
+                    <textarea id="personReason" rows="3" placeholder="Cuéntanos la historia..." required></textarea>
+                </div>
+                <button type="submit" class="btn-add">Agregar a la Lista</button>
+            </form>
+        </div>
+
+        <div class="people-list" id="peopleList">
+            <!-- Las personas se agregarán aquí -->
+        </div>
+    </div>
+
+    <script>
+        // Array para almacenar las personas
+        let people = [];
+
+        // Cargar datos del localStorage al iniciar
+        function loadFromStorage() {
+            const stored = localStorage.getItem('botadaPeople');
+            if (stored) {
+                people = JSON.parse(stored);
+                renderPeople();
+                updateStats();
+            }
+        }
+
+        // Guardar datos en localStorage
+        function saveToStorage() {
+            localStorage.setItem('botadaPeople', JSON.stringify(people));
+        }
+
+        // Renderizar la lista de personas
+        function renderPeople() {
+            const list = document.getElementById('peopleList');
+            
+            if (people.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <h3>🤔 ¡Aún no hay nadie!</h3>
+                        <p>Agrega la primera persona botada usando el formulario de arriba</p>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = people.map((person, index) => `
+                <div class="person-card">
+                    <div class="person-header">
+                        <h3 class="person-name">${escapeHtml(person.name)}</h3>
+                        <button class="delete-btn" onclick="deletePerson(${index})">🗑️ Eliminar</button>
+                    </div>
+                    <p class="person-reason">${escapeHtml(person.reason)}</p>
+                    <div class="rating-section">
+                        <div class="stars">
+                            ${[1, 2, 3, 4, 5].map(star => `
+                                <span class="star ${star <= person.rating ? 'active' : ''}" 
+                                      onclick="ratePerson(${index}, ${star})">★</span>
+                            `).join('')}
+                        </div>
+                        <div class="rating-display">
+                            ${person.rating > 0 ? person.rating + ' / 5 ⭐' : 'Sin calificar'}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            updateStats();
+        }
+
+        // Escapar HTML para prevenir XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Agregar nueva persona
+        document.getElementById('addPersonForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('personName').value.trim();
+            const reason = document.getElementById('personReason').value.trim();
+
+            if (name && reason) {
+                people.unshift({
+                    name: name,
+                    reason: reason,
+                    rating: 0,
+                    date: new Date().toISOString()
+                });
+
+                saveToStorage();
+                renderPeople();
+                
+                // Limpiar formulario
+                this.reset();
+                
+                // Scroll suave hacia la nueva entrada
+                setTimeout(() => {
+                    document.querySelector('.people-list').scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 100);
+            }
+        });
+
+        // Calificar persona
+        function ratePerson(index, rating) {
+            people[index].rating = rating;
+            saveToStorage();
+            renderPeople();
+        }
+
+        // Eliminar persona
+        function deletePerson(index) {
+            if (confirm('¿Estás seguro de eliminar esta persona?')) {
+                people.splice(index, 1);
+                saveToStorage();
+                renderPeople();
+            }
+        }
+
+        // Actualizar estadísticas
+        function updateStats() {
+            const statsText = document.getElementById('statsText');
+            
+            if (people.length === 0) {
+                statsText.textContent = 'Aún no hay personas registradas';
+                return;
+            }
+
+            const rated = people.filter(p => p.rating > 0);
+            const avgRating = rated.length > 0 
+                ? (rated.reduce((sum, p) => sum + p.rating, 0) / rated.length).toFixed(1)
+                : 0;
+
+            const mostBotada = rated.length > 0 
+                ? rated.reduce((max, p) => p.rating > max.rating ? p : max, rated[0])
+                : null;
+
+            statsText.innerHTML = `
+                <strong>${people.length}</strong> personas registradas | 
+                <strong>${rated.length}</strong> calificadas | 
+                Promedio: <strong>${avgRating} ⭐</strong>
+                ${mostBotada ? `<br>🏆 Más botado/a: <strong>${escapeHtml(mostBotada.name)}</strong> con ${mostBotada.rating} estrellas` : ''}
+            `;
+        }
+
+        // Inicializar
+        loadFromStorage();
+    </script>
+</body>
+</html>
